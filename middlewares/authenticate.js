@@ -10,6 +10,7 @@ const verify = (req, res, next) => {
         const token = authHeader.split(' ')[1];
         const verified = jwt.verify(token, process.env.SECRET_KEY);
         if (verified) {
+            req.user = verified;
             next();
         } else {
             return res.status(401).json({ error: 'Token verification failed' });

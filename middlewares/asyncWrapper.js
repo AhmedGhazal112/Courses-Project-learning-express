@@ -3,9 +3,9 @@ module.exports = (asyncFn) => {
         throw new TypeError('Expected a function to wrap in asyncWrapper');
     }
 
-    return (req, res, next) => {
+    return async (req, res, next) => {
         try {
-            const result = asyncFn(req, res, next);
+            const result = await asyncFn(req, res, next);
             if (result && typeof result.catch === 'function') {
                 result.catch((err) => next(err));
             }

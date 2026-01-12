@@ -20,10 +20,11 @@ const registerUser = async (req, res, next) => {
     const user = new User({ ...req.body, password: hashedPassword });
 
     const token = jwt.sign(
-        { id: user._id, name: user.name, email: user.email },
+        { id: user._id, name: user.name, email: user.email, role: user.role },
         process.env.SECRET_KEY,
         { expiresIn: "10m" }
     );
+    
     user.token = token;
     await user.save();
     return res.status(201).json(user);
@@ -46,7 +47,7 @@ const loginUser = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-        { id: user._id, name: user.name, email: user.email },
+        { id: user._id, name: user.name, email: user.email, role: user.role     },
         process.env.SECRET_KEY,
         { expiresIn: "10m" }
     );

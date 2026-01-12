@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const coursesRouter = require("./routes/courses.route");
 const userRouter = require('./routes/user.route');
-const verify  = require('./middlewares/verify');
+const authenticate = require('./middlewares/authenticate');
 
 app.use(express.json());
 app.use(cors());
@@ -18,7 +18,7 @@ mongoose.connect(url).then(() => {
     process.exit(1);
 });
 
-app.use('/api/courses', verify, coursesRouter);
+app.use('/api/courses', authenticate, coursesRouter);
 app.use('/api/users', userRouter);
 app.use((req, res) => {
     res.status(404).send("Route not found");
